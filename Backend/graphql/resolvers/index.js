@@ -4,5 +4,8 @@ const user = require('./users');
 module.exports = {
     Query: {
         ...posts.Query
+    },
+    Mutation: {
+        ...user.Mutation
     }
 }
