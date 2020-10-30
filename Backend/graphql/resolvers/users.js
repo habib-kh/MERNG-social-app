@@ -8,7 +8,6 @@ module.exports = {
     Mutation: {
         async register(_, {registerInput:{userName, email, password, confirmPassword}}, context, info){
              password = await bcrypt.hash(password, 12);
-            console.log(password);
              const newUser = new User({
                  userName,
                  email,
@@ -21,11 +20,10 @@ module.exports = {
                 id:res.id,
                 email:res.email   
             },SECRET_KEY,{expiresIn:'1h'});
-            console.log(res);
             return {
                 ...res._doc,
                 id: res._id,
-                token, 
+                token,
             }
         }
     }
