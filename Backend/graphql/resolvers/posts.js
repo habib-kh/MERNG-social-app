@@ -10,6 +10,18 @@ module.exports = {
             } catch(err) {
                 throw new Error(err);
             }
+        },
+        async getPost(_,{postID}){
+            try {
+                const post = await Post.findById(postID);
+                if(!post) {
+                    throw new Error('Post not found');
+                }
+                return post;
+            } catch(err) {
+                throw new Error(err);
+            }
         }
+        
     }
 }
