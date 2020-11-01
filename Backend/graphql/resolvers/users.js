@@ -4,9 +4,16 @@ const jwt = require('jsonwebtoken');
 const { SECRET_KEY } = require('../../config');
 
 const User = require('../../models/User');
+const {validateRegisterInput} = require('../../utils/validators');
 module.exports = {
     Mutation: {
         async register(_, {registerInput:{userName, email, password, confirmPassword}}, context, info){
+            //validate user data 
+            const validation = validateRegisterInput(userName,email,password,confirmPassword);
+            if(!validation.valid){
+                throw new UserInputError('Errors',{errors:validation.errors});
+            }
+            
             //check if user has already taken 
             const oldUser = await User.findOne({userName});
             if(oldUser){
