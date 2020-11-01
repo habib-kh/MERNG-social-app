@@ -7,7 +7,17 @@ const User = require('../../models/User');
 module.exports = {
     Mutation: {
         async register(_, {registerInput:{userName, email, password, confirmPassword}}, context, info){
-             password = await bcrypt.hash(password, 12);
+            //check if user has already taken 
+            const oldUser = await User.findOne({userName});
+            if(oldUser){
+                throw new UserInputError('userName already taken', {
+                    errors:{
+                        username: ' username already taken' 
+                    }
+                });
+            } 
+            
+            password = await bcrypt.hash(password, 12);
              const newUser = new User({
                  userName,
                  email,
